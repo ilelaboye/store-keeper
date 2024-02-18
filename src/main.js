@@ -4,7 +4,6 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import App from "./App.vue";
 import i18n from "./lang/index";
-import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
@@ -12,7 +11,6 @@ import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import mixins from "./mixins";
-import "./registerServiceWorker";
 import "sweetalert2/dist/sweetalert2.min.css";
 import lang from "./components/language";
 
