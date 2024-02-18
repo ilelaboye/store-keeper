@@ -10,7 +10,6 @@
   "dependencies": {
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
-    "register-service-worker": "^1.7.2",
     "vue": "^2.6.11",
     "vue-barcode-reader": "0.0.3",
     "vue-fragment": "1.5.1",
