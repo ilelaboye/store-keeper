@@ -260,10 +260,10 @@
         orders: [],
         pending: 0,
         product: {
-          name: "Rice",
+          name: "",
           image: "",
-          price: "34000",
-          barcode: "10004445",
+          price: "",
+          barcode: "",
         },
         loading: false,
         readyToscan: false,

@@ -1,0 +1,8 @@
+app/netlify/store_keeper_ivyleague/twa/DelegationService.java
+ app.netlify.store_keeper_ivyleague.twa.DelegationService
+app/netlify/store_keeper_ivyleague/twa/LauncherActivity.java
+ app.netlify.store_keeper_ivyleague.twa.LauncherActivity
+app/netlify/store_keeper_ivyleague/twa/Application.java
+ app.netlify.store_keeper_ivyleague.twa.Application
+app/netlify/store_keeper_ivyleague/twa/BuildConfig.java
+ app.netlify.store_keeper_ivyleague.twa.BuildConfig

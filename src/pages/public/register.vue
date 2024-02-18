@@ -77,11 +77,11 @@
     data() {
       return {
         user: {
-          first_name: "taiwo",
-          last_name: "adekunle",
-          storename: "Moh Farm",
-          phone: "08102721331",
-          password: "123456",
+          first_name: "",
+          last_name: "",
+          storename: "",
+          phone: "",
+          password: "",
         },
         loading: false,
         showPass: true,

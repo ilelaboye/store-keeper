@@ -94,8 +94,8 @@
     data() {
       return {
         user: {
-          phone: "08102721331",
-          password: "123456",
+          phone: "",
+          password: "",
         },
         loading: false,
         showPass: true,
