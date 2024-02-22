@@ -3,7 +3,7 @@
     <div class="main-wrapper min-vh-100 position-relative">
       <NavHeaderSidebar />
       <!-- INSERT PAGE HERE -->
-      <section class="tw-main">
+      <section class="tw-main" v-if="loaded">
         <div class="tw-section tw-main-section-top mb-0">
           <div
             class="tw-section-wrapper d-flex justify-content-between align-items-center"
@@ -270,6 +270,7 @@
         afterScan: false,
         kpi: {},
         transactions: [],
+        loaded: false,
       };
     },
     methods: {
@@ -311,6 +312,7 @@
             details: formData,
           })
           .then((resp) => {
+            this.getKpi();
             this.loading = false;
             this.toasterAlert("success", "Product uploaded successfully");
             this.product.name = "";
@@ -329,8 +331,8 @@
         this.$store
           .dispatch("get", `/products/get-transaction/${this.user.id}`)
           .then((resp) => {
-            console.log(resp);
             this.transactions = resp.data;
+            console.log("tr", this.transactions);
           });
       },
       getKpi() {
@@ -339,6 +341,7 @@
           .then((resp) => {
             console.log(resp);
             this.kpi = resp.data;
+            this.loaded = true;
           });
       },
     },

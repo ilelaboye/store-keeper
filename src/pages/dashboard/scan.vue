@@ -171,17 +171,118 @@
               </div>
             </li>
           </ul>
-
-          <button
-            class="btn btn-secondary w-100"
-            @click.prevent="addTransaction()"
-            :disabled="loading"
-          >
-            <span v-if="loading">Loading...</span>
-            <span v-else>Submit</span>
-          </button>
+          <div class="radio my-3">
+            <label class="d-block" style="font-size: 15px">Payment Type</label>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="cash"
+                v-model="payment_type"
+              />
+              <label
+                class="form-check-label"
+                for="inlineRadio1"
+                style="font-size: 15px; font-weight: bold"
+                >Cash</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio2"
+                value="transfer"
+                v-model="payment_type"
+              />
+              <label
+                class="form-check-label"
+                for="inlineRadio2"
+                style="font-size: 15px; font-weight: bold"
+                >Transfer</label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button
+                class="btn btn-secondary w-100"
+                @click.prevent="addTransaction()"
+                :disabled="loading"
+              >
+                <span v-if="loading">Loading...</span>
+                <span v-else>Submit</span>
+              </button>
+            </div>
+            <div class="col-6">
+              <button
+                class="btn btn-secondary w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#sendInvoice"
+              >
+                <span>Send as Invoice</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
+    </div>
+
+    <div class="modal fade" id="sendInvoice" tabindex="-1">
+      <div class="modal-dialog modal-dialog-sm modal-dialog-centered">
+        <div class="modal-content py-0">
+          <div
+            class="modal-header d-flex justify-content-between align-items-center"
+          >
+            <div class="modal-title">Send Invoice</div>
+            <a
+              href="#"
+              class="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <svg
+                style="width: 14px"
+                id="Close"
+                enable-background="new 0 0 128 128"
+                viewBox="0 0 128 128"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m71.1 64 42.9 42.9-7.1 7.1-42.9-42.9-42.9 42.9-7.1-7.1 42.9-42.9-42.9-42.9 7.1-7.1 42.9 42.9 42.9-42.9 7.1 7.1z"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div class="modal-body">
+            <div class="form">
+              <form>
+                <div class="form-group">
+                  <label for="">Customer Email</label>
+                  <input type="email" v-model="email" class="form-control" />
+                </div>
+                <div class="my-4 d-flex justify-content-end">
+                  <button
+                    type="submit"
+                    class="btn btn-secondary"
+                    :disabled="loading"
+                    @click.prevent="addTransaction()"
+                  >
+                    <span v-if="!loading">Send Invoice</span>
+                    <span v-else>{{ $t("loading") }}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- .modal-content -->
+      </div>
+      <!-- .modal-dialog -->
     </div>
     <NavMobile />
   </Fragment>
@@ -221,6 +322,8 @@
         cart: [],
         loading: false,
         code: "",
+        email: "",
+        payment_type: "cash",
       };
     },
     methods: {
@@ -242,27 +345,41 @@
         console.log(this.product);
       },
       addTransaction() {
-        for (var i = 0; i < this.cart.length; i++) {
-          var item = {
-            user_id: this.user.id,
-            product_id: this.cart[i].product.id,
-            price: this.cart[i].product.price,
-            quantity: this.cart[i].quantity,
-            total: this.cart[i].total,
-          };
-          this.$store
-            .dispatch("post", {
-              endpoint: "/products/add-transaction",
-              details: item,
-            })
-            .then((resp) => {
-              console.log(resp);
-            });
-        }
-        this.toasterAlert("success", "Transaction added successfully");
-        window.setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        // for (var i = 0; i < this.cart.length; i++) {
+        //   var item = {
+        //     user_id: this.user.id,
+        //     product_id: this.cart[i].product.id,
+        //     price: this.cart[i].product.price,
+        //     quantity: this.cart[i].quantity,
+        //     total: this.cart[i].total,
+        //     email: this.email,
+        //     payment_type: this.payment_type,
+        //   };
+        //   this.$store
+        //     .dispatch("post", {
+        //       endpoint: "/products/add-transaction",
+        //       details: item,
+        //     })
+        //     .then((resp) => console.log(resp));
+        // }
+        this.$store
+          .dispatch("post", {
+            endpoint: "/products/add-transaction",
+            details: {
+              user_id: this.user.id,
+              email: this.email,
+              payment_type: this.payment_type,
+              products: JSON.stringify(this.cart),
+            },
+          })
+          .then((resp) => {
+            console.log(resp);
+            this.toasterAlert("success", "Transaction added successfully");
+            window.setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          });
+        //
       },
       addToCart() {
         if (!this.product.product) {
